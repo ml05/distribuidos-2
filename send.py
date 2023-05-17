@@ -3,10 +3,13 @@ import json
 import time
 import string
 import random
+import threading
 
+# establecer conexion con el servidor RabbitMQ
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
+# declarar la cola en la que se va a enviar el mensaje
 channel.queue_declare(queue='hello')
 
 # funcion para generar una cadena aleatoria de mensajes de largo N
@@ -27,11 +30,18 @@ def genData(size):
     return data
 
 # se genera un mensaje de largo 10
-# en el futuro, este valor podria ser aleatorio o entregado por el usuario
+# TODO este valor podria ser aleatorio o entregado por el usuario
 mensaje = json.dumps(genData(10))
 
+# modifica el encabezado del mensaje
+# agregando el nombre de quien lo envia
+# TODO cambiar a un valor entregado por el usuario
+properties = pika.BasicProperties(headers={'sender': 'remitente_1'})
+
+# publicar el mensaje
 channel.basic_publish(exchange='',
                       routing_key='hello',
+                      properties=properties,
                       body=mensaje)
 
 

@@ -8,9 +8,13 @@ def main():
     channel.queue_declare(queue='hello')
 
     def callback(ch, method, properties, body):
-        print(" [x] Received %s" % body)
+        sender = properties.headers.get('sender')
+        print("Device", sender, "sending:", body.decode('utf-8'))
+        
 
-    channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue='hello', 
+                          on_message_callback=callback, 
+                          auto_ack=True)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
@@ -19,7 +23,7 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
+        print(' Interrupted')
         try:
             sys.exit(0)
         except SystemExit:
