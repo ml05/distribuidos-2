@@ -22,3 +22,13 @@ pip3 install pika --upgrade
 ```
 rabbitmqctl list_queues
 ```
+
+## Ejecutar los archivos
+
+Se deben ejecutar los archivos en terminales distintas, primero receive.py y luego todos los send.py que se deseen
+
+```
+python3 recevie.py
+python3 send.py
+...
+```
