@@ -1,9 +1,5 @@
-import pika
-import json
-import time
-import string
-import random
-import threading
+import pika, json, time, string, random
+
 
 # establecer conexion con el servidor RabbitMQ
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -29,23 +25,24 @@ def genData(size):
     }
     return data
 
-# se genera un mensaje de largo 10
-# TODO este valor podria ser aleatorio o entregado por el usuario
-mensaje = json.dumps(genData(10))
+# enviar_mensaje envia un mensaje a la cola
+# id: identificador del dispositivo
+# n: tamano del mensajes a enviar
+# t: tiempo entre mensajes
+def enviar_mensaje(id, n, t):
+    for i in range(3):
+        mensaje = json.dumps(genData(n))
+        # se crea un objeto BasicProperties para definir un header
+        properties = pika.BasicProperties(headers={'sender': id})
+        # publicar el mensaje
+        channel.basic_publish(exchange='',
+                            routing_key='hello',
+                            properties=properties,
+                            body=mensaje)
+        # mensaje de confirmacion
+        print(" [x] Sent %s" % mensaje)
+        time.sleep(t)
 
-# modifica el encabezado del mensaje
-# agregando el nombre de quien lo envia
-# TODO cambiar a un valor entregado por el usuario
-properties = pika.BasicProperties(headers={'sender': 'remitente_1'})
-
-# publicar el mensaje
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      properties=properties,
-                      body=mensaje)
-
-
-
-print(" [x] Sent %s" % mensaje)
+enviar_mensaje("1", 4, 3)
 
 connection.close()
