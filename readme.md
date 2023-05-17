@@ -28,7 +28,7 @@ rabbitmqctl list_queues
 Se deben ejecutar los archivos en terminales distintas, primero receive.py y luego todos los send.py que se deseen
 
 ```
-python3 recevie.py
+python3 receive.py
 python3 send.py
 ...
 ```
