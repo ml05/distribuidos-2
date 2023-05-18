@@ -4,7 +4,7 @@ import eventType from '../eventType.js';
 var consumer = new Kafka.KafkaConsumer({
   'group.id': 'kafka',
   'metadata.broker.list': 'localhost:9092',
-}, {});
+}, {}, {topic: 'test'});
 
 consumer.connect();
 
