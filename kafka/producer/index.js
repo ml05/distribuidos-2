@@ -15,7 +15,8 @@ stream.on('error', (err) => {
 function queueRandomMessage() {
   const category = getRandomAnimal();
   const noise = getRandomNoise(category);
-  const event = { category, noise };
+  const timestamp = Date.now();
+  const event = { category, noise, timestamp };
   const success = stream.write(eventType.toBuffer(event));     
   if (success) {
     console.log(`message queued (${JSON.stringify(event)})`);
