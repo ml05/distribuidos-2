@@ -20,6 +20,7 @@ def generar_cadena_aleatoria(N):
 def genData(size):
     
     data = {
+        # implementar 5 categorias distintas
         'timestamp' : time.time(),
         'value' : {'data' : generar_cadena_aleatoria(size)}
     }

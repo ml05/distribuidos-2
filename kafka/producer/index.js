@@ -26,6 +26,7 @@ function queueRandomMessage() {
 }
 
 function getRandomAnimal() {
+  // aumentar categorias a cinco
   const categories = ['CAT', 'DOG'];
   return categories[Math.floor(Math.random() * categories.length)];
 }
