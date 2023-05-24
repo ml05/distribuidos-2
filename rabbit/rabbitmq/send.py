@@ -35,7 +35,7 @@ def genData(size, categoria):
 
 # enviar_mensaje envia un mensaje a la cola
 # id: identificador del dispositivo
-# n: tamano del mensajes a enviar
+# n: tamaño de mensajes a enviar
 # t: tiempo entre mensajes
 def enviar_mensaje(id, n, t):
     for i in range(3):
