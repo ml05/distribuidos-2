@@ -4,12 +4,20 @@ export default avro.Type.forSchema({
   type: 'record',
   fields: [
     {
-      name: 'category',
-      type: { type: 'enum', symbols: ['DOG', 'CAT'] }
+      name: 'id',
+      type: 'string'
     },
     {
-      name: 'noise',
-      type: 'string',
+      name: 'category',
+      type: { type: 'enum', symbols: ['Temperatura', 'Humedad', 'CO2', 'Luminosidad', 'pH'] }
+    },
+    {
+      name: 'value',
+      type: 'string'
+    },
+    {
+      name: 'timestamp',
+      type: 'string'
     }
   ]
 });

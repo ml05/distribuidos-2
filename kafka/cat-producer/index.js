@@ -3,11 +3,24 @@ import eventType from '../eventType.js';
 
 function createProducer(identificador){
 
-  
+  const category = getRandomCategory();
+  let topic_usado = '';
+  if (category === 'Humedad') {
+    topic_usado = 'humedad';
+  } else if (category === 'Temperatura') {
+    topic_usado = 'temperatura';
+  } else if (category === 'CO2') {
+    topic_usado = 'co2';
+  } else if (category === 'Luminosidad') {
+    topic_usado = 'luminosidad';
+  } else if (category === 'pH') {
+    topic_usado = 'ph';
+  } else {
+    topic_usado = 'test';
+  }
 
   function queueRandomMessage() {
     const id = identificador.toString();
-    const category = getRandomCategory();
     const value = getRandomValue(category);
     const timestamp = Date.now().toString();
     const event = { id, category, value, timestamp };
@@ -23,7 +36,7 @@ function createProducer(identificador){
   const stream = Kafka.Producer.createWriteStream({
   'metadata.broker.list': 'localhost:9092'
   }, {}, {
-    topic: 'test'
+    topic: topic_usado
   });
 
   stream.on('error', (err) => {
@@ -80,7 +93,7 @@ function createProducer(identificador){
 }
 
 // establecer cantidad de productores igual a 1 para tener solo un productor
-const numProducers = 1;
+const numProducers = 6;
 // Crear múltiples productores
 for (let i = 0; i < numProducers; i++) {
   createProducer(i);
