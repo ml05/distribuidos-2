@@ -1,4 +1,4 @@
-cd rabbit\rabbitmq_multi_threads\categorias
+ubucacion: cd rabbit\rabbitmq_multi_threads\categorias
 
 
 # Implementacion rabbitmq con multiples threads

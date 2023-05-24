@@ -55,7 +55,7 @@ def send_messages(n_threads, delay):
         thread.join()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Send messages with configurable threads and delay")
+    parser = argparse.ArgumentParser(description="Enviar mensajes con threads y delay configurables")
     parser.add_argument("--threads", type=int, default=3, help="Numero de threads(devices)")
     parser.add_argument("--delay", type=int, default=5, help="Delay")
 

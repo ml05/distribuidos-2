@@ -4,7 +4,7 @@
 
 ## Ejecutar los archivos
 
-Se deben ejecutar los archivos en terminales distintas, primero receive.py y luego todos los send.py que se deseen
+Se deben ejecutar los archivos en terminales distintas, primero consumer.py y luego todos los producer.py que se deseen
 
 ```
 python3 consumer.py <0>
