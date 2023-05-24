@@ -93,7 +93,7 @@ function createProducer(identificador){
 }
 
 // establecer cantidad de productores igual a 1 para tener solo un productor
-const numProducers = 6;
+const numProducers = 4;
 // Crear múltiples productores
 for (let i = 0; i < numProducers; i++) {
   createProducer(i);

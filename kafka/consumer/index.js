@@ -22,8 +22,9 @@ function createConsumer(identificador) {
     consumerGroup.consume();
   }).on('data', function (data) {
     message = eventType.fromBuffer(data.value).toString();
+    let tiempo = Date.now().toString();
     console.log(`consumer ` + identificador.toString() + ` received message: ${message}`);
-    message = message + '\n';
+    message = message + ' ' + tiempo + '\n';
     fs.writeFile(filePath, message, {'flag': 'a+'}, (err) => {
       if (err) {
         console.error('Error writing to file:', err);
@@ -32,11 +33,10 @@ function createConsumer(identificador) {
       }
     });
   });
-  
 }
 
 // establecer en 1 para probar con un solo consumidor
-const numConsumers = 2;
+const numConsumers = 10;
 // Crear consumidores en grupos diferentes
 for (let i = 0; i < numConsumers; i++) {
   createConsumer(i);

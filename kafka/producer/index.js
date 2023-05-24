@@ -2,23 +2,19 @@ import Kafka from 'node-rdkafka';
 import eventType from '../eventType.js';
 
 function createProducer(identificador){
-
-  
-
   function queueRandomMessage() {
     const id = identificador.toString();
     const category = getRandomCategory();
     const value = getRandomValue(category);
     const timestamp = Date.now().toString();
     const event = { id, category, value, timestamp };
-    const success = stream.write(eventType.toBuffer(event));     
+    const success = stream.write(eventType.toBuffer(event));
     if (success) {
       console.log(`message queued (${JSON.stringify(event)})`);
     } else {
       console.log('Too many messages in the queue already..');
     }
   }
-
 
   const stream = Kafka.Producer.createWriteStream({
   'metadata.broker.list': 'localhost:9092'
@@ -30,8 +26,6 @@ function createProducer(identificador){
     console.error('Error in our kafka stream');
     console.error(err);
   });
-
-  
 
   function getRandomCategory() {
     const categories = ['Temperatura', 'Humedad', 'CO2', 'Luminosidad', 'pH'];
@@ -74,9 +68,10 @@ function createProducer(identificador){
     }
   }
 
-  setInterval(() => {
+    // modificar 1000 por la cantidad de milisegundos
+  setInterval((t) => {
     queueRandomMessage();
-  }, 3000);
+  }, 1000);
 }
 
 // establecer cantidad de productores igual a 1 para tener solo un productor
