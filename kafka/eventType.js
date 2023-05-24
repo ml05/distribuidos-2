@@ -9,10 +9,10 @@ export default avro.Type.forSchema({
     },
     {
       name: 'category',
-      type: { type: 'enum', symbols: ['DOG', 'CAT'] }
+      type: { type: 'enum', symbols: ['Temperatura', 'Humedad', 'CO2', 'Luminosidad', 'pH'] }
     },
     {
-      name: 'noise',
+      name: 'value',
       type: 'string'
     },
     {
