@@ -23,11 +23,11 @@ def categoriaAleatoria():
 # genData genera info de largo segun argumento
 # informacion a enviar en formato JSON
 # enviar: timestamp, values (debe ser configurable)
-def genData(size):
+def genData(size, categoria):
     
     data = {
         # implementar 5 categorias distintas
-        'category' : categoriaAleatoria(),
+        'category' : categoria,
         'timestamp' : time.time(),
         'value' : {'data' : generar_cadena_aleatoria(size)}
     }
@@ -39,7 +39,8 @@ def genData(size):
 # t: tiempo entre mensajes
 def enviar_mensaje(id, n, t):
     for i in range(3):
-        mensaje = json.dumps(genData(n))
+        categoria = categoriaAleatoria()
+        mensaje = json.dumps(genData(n, categoria))
         # se crea un objeto BasicProperties para definir un header
         properties = pika.BasicProperties(headers={'sender': id})
         # publicar el mensaje
