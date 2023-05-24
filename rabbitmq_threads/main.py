@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     # Configuración de hilos y tiempo
     n_threads = 3  # Número de hilos (dispositivos IoT)
-    delay = 5  # Intervalo de tiempo en segundos
+    delay = 7  # Intervalo de tiempo en segundos
 
     threads = []
     stop_event = threading.Event()  # Evento de parada

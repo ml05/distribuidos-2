@@ -36,19 +36,40 @@ def cerrar_conexion():
 import atexit
 atexit.register(cerrar_conexion)'''
 import pika
+import json
+import time
+import string
+import random
 
-connection_parameters = pika.ConnectionParameters('localhost')
+def generar_cadena_aleatoria(N):
+    caracteres = string.ascii_letters + string.digits + string.punctuation
+    cadena_aleatoria = ''.join(random.choice(caracteres) for _ in range(N))
+    return cadena_aleatoria
 
-connection = pika.BlockingConnection(connection_parameters)
+def enviar_mensaje():
+    connection_parameters = pika.ConnectionParameters('localhost')
+    connection = pika.BlockingConnection(connection_parameters)
+    channel = connection.channel()
+    channel.queue_declare(queue='letterbox')
 
-channel = connection.channel()
+    # Crear el mensaje en el formato adecuado
+    data = {
+        "timestamp": time.time(),
+        "value": {
+            "data": generar_cadena_aleatoria(4)  # Generar una cadena aleatoria de longitud 4
+        }
+    }
 
-channel.queue_declare(queue='letterbox')
+    # Convertir el mensaje a formato JSON
+    json_message = json.dumps(data)
 
-message = "Hello this is my first message"
+    channel.basic_publish(exchange='', routing_key='letterbox', body=json_message)
 
-channel.basic_publish(exchange='', routing_key='letterbox', body=message)
+    print(f"Sent message: {json_message}")
 
-print(f"sent message: {message}")
+    connection.close()
 
-connection.close()
+enviar_mensaje()
+enviar_mensaje()
+enviar_mensaje()
+
