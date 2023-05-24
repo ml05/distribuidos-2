@@ -1,7 +1,7 @@
 import Kafka from 'node-rdkafka';
 import eventType from '../eventType.js';
 
-function createProducers(){
+function createProducer(identificador){
   const stream = Kafka.Producer.createWriteStream({
   'metadata.broker.list': 'localhost:9092'
   }, {}, {
@@ -14,10 +14,11 @@ function createProducers(){
   });
 
   function queueRandomMessage() {
+    const id = identificador.toString();
     const category = getRandomAnimal();
     const noise = getRandomNoise(category);
-    const timestamp = Date.now();
-    const event = { category, noise, timestamp };
+    const timestamp = Date.now().toString();
+    const event = { id, category, noise, timestamp };
     const success = stream.write(eventType.toBuffer(event));     
     if (success) {
       console.log(`message queued (${JSON.stringify(event)})`);
@@ -49,8 +50,9 @@ function createProducers(){
   }, 3000);
 }
 
+// establecer cantidad de productores igual a 1 para tener solo un productor
 const numProducers = 1;
 // Crear múltiples productores
 for (let i = 0; i < numProducers; i++) {
-  createProducer();
+  createProducer(i);
 }
