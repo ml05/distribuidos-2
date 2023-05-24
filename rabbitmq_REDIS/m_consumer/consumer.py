@@ -13,12 +13,12 @@ def callback(ch, method, properties, body):
     message = body.decode('utf-8')
     print("Device", sender, "sending:", message)
 
-    # Guardar en rEDIS
+    # Guardar en REDIS
     start_time = time.time()
     result = redis_client.rpush('messages', message)
-    end_time = time.time()
-    execution_time = end_time - start_time
-    print("Tiempo de guardado en Redis:", execution_time, "segundos")
+    end_time = time.time() 
+    Tredis = end_time - start_time #calcular lo que se tarda
+    print("Tiempo de guardado en Redis:", Tredis, "segundos")
 
     # Verificacion de guardado
     if result > 0: # sesupone que si se guarda correctamente result tiene que ser > 0
@@ -29,7 +29,7 @@ def callback(ch, method, properties, body):
     # Exporta a CSV
     with open('data.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([sender, message, execution_time])
+        writer.writerow([sender, message, Tredis])
 
 def receive_message(consumer_id):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
