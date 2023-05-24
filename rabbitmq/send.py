@@ -14,6 +14,12 @@ def generar_cadena_aleatoria(N):
     cadena_aleatoria = ''.join(random.choice(caracteres) for _ in range(N))
     return cadena_aleatoria
 
+# generar una categoria aleatoria
+def categoriaAleatoria():
+    categorias = ['temperatura', 'humedad', 'pH', 'lumninosidad', 'CO2']
+    return random.choice(categorias)
+
+
 # genData genera info de largo segun argumento
 # informacion a enviar en formato JSON
 # enviar: timestamp, values (debe ser configurable)
@@ -21,6 +27,7 @@ def genData(size):
     
     data = {
         # implementar 5 categorias distintas
+        'category' : categoriaAleatoria(),
         'timestamp' : time.time(),
         'value' : {'data' : generar_cadena_aleatoria(size)}
     }

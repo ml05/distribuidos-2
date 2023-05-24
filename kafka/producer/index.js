@@ -1,48 +1,56 @@
 import Kafka from 'node-rdkafka';
 import eventType from '../eventType.js';
 
-const stream = Kafka.Producer.createWriteStream({
+function createProducers(){
+  const stream = Kafka.Producer.createWriteStream({
   'metadata.broker.list': 'localhost:9092'
-}, {}, {
-  topic: 'test'
-});
+  }, {}, {
+    topic: 'test'
+  });
 
-stream.on('error', (err) => {
-  console.error('Error in our kafka stream');
-  console.error(err);
-});
+  stream.on('error', (err) => {
+    console.error('Error in our kafka stream');
+    console.error(err);
+  });
 
-function queueRandomMessage() {
-  const category = getRandomAnimal();
-  const noise = getRandomNoise(category);
-  const timestamp = Date.now();
-  const event = { category, noise, timestamp };
-  const success = stream.write(eventType.toBuffer(event));     
-  if (success) {
-    console.log(`message queued (${JSON.stringify(event)})`);
-  } else {
-    console.log('Too many messages in the queue already..');
+  function queueRandomMessage() {
+    const category = getRandomAnimal();
+    const noise = getRandomNoise(category);
+    const timestamp = Date.now();
+    const event = { category, noise, timestamp };
+    const success = stream.write(eventType.toBuffer(event));     
+    if (success) {
+      console.log(`message queued (${JSON.stringify(event)})`);
+    } else {
+      console.log('Too many messages in the queue already..');
+    }
   }
-}
 
-function getRandomAnimal() {
-  // aumentar categorias a cinco
-  const categories = ['CAT', 'DOG'];
-  return categories[Math.floor(Math.random() * categories.length)];
-}
-
-function getRandomNoise(animal) {
-  if (animal === 'CAT') {
-    const noises = ['meow', 'purr'];
-    return noises[Math.floor(Math.random() * noises.length)];
-  } else if (animal === 'DOG') {
-    const noises = ['bark', 'woof'];
-    return noises[Math.floor(Math.random() * noises.length)];
-  } else {
-    return 'silence..';
+  function getRandomAnimal() {
+    // aumentar categorias a cinco
+    const categories = ['CAT', 'DOG'];
+    return categories[Math.floor(Math.random() * categories.length)];
   }
+
+  function getRandomNoise(animal) {
+    if (animal === 'CAT') {
+      const noises = ['meow', 'purr'];
+      return noises[Math.floor(Math.random() * noises.length)];
+    } else if (animal === 'DOG') {
+      const noises = ['bark', 'woof'];
+      return noises[Math.floor(Math.random() * noises.length)];
+    } else {
+      return 'silence..';
+    }
+  }
+
+  setInterval(() => {
+    queueRandomMessage();
+  }, 3000);
 }
 
-setInterval(() => {
-  queueRandomMessage();
-}, 3000);
+const numProducers = 1;
+// Crear múltiples productores
+for (let i = 0; i < numProducers; i++) {
+  createProducer();
+}
