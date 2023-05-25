@@ -3,7 +3,8 @@ import signal
 import sys
 import redis
 import csv
-import time, os
+import time
+import os
 
 # Crea una conexión a Redis
 redis_client = redis.Redis(host='localhost', port=6379)
@@ -28,9 +29,10 @@ def callback(ch, method, properties, body):
     print("Tiempo de ejecución:", execution_time)
 
     # Exporta los datos a un archivo CSV
+    timestamp = time.time()  # Obtener el timestamp actual
     with open('data_co2.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([message, execution_time])
+        writer.writerow([message, execution_time, timestamp])
 
 def signal_handler(sig, frame):
     print('Deteniendo la ejecución...')

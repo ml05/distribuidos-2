@@ -28,9 +28,10 @@ def callback(ch, method, properties, body):
     print("Tiempo de ejecución:", execution_time)
 
     # Exporta los datos a un archivo CSV
+    timestamp = time.time()
     with open('data_pH.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([message, execution_time])
+        writer.writerow([message, execution_time,timestamp])
 
 def signal_handler(sig, frame):
     print('Deteniendo la ejecución...')
