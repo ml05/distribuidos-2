@@ -16,20 +16,21 @@ def callback(ch, method, properties, body):
     # Guardar en REDIS
     start_time = time.time()
     result = redis_client.rpush('messages', message)
-    end_time = time.time() 
-    Tredis = end_time - start_time #calcular lo que se tarda
+    end_time = time.time()
+    Tredis = end_time - start_time  # Calcular el tiempo que tarda
     print("Tiempo de guardado en Redis:", Tredis, "segundos")
 
-    # Verificacion de guardado
-    if result > 0: # sesupone que si se guarda correctamente result tiene que ser > 0
+    # Verificación de guardado
+    if result > 0:  # Se supone que si se guarda correctamente result tiene que ser > 0
         print("El mensaje se ha guardado correctamente en Redis")
     else:
         print("Error al guardar el mensaje en Redis")
 
     # Exporta a CSV
+    timestamp = time.time()  # Obtener el timestamp actual
     with open('data.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([sender, message, Tredis])
+        writer.writerow([sender, message, Tredis, timestamp])
 
 def receive_message(consumer_id):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))

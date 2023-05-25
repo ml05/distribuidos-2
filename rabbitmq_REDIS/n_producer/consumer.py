@@ -23,9 +23,10 @@ def on_message_received(ch, method, properties, body):
         print("Error al guardar el mensaje en Redis")
 
     # Exporta a CSV
+    timestamp = time.time()  # Obtener el timestamp actual
     with open('data.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow([message, Tredis])
+        writer.writerow([message, Tredis, timestamp])
 
 connection_parameters = pika.ConnectionParameters('localhost')
 
